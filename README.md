@@ -31,7 +31,7 @@ StackPilot is designed for windows developers who work with multiple development
 
 ## 📝 Notes from the Author 
 
-StackPilot was created to simplify my daily workflow and eliminate repetitive tasks when context switching between multiple applications. I'm releasing it as an open-source tool for the community to use and extend.
+StackPilot was created to simplify my daily workflow and eliminate repetitive tasks when context switching between multiple applications. I'm releasing it as an open-source tool for the community to use and extend. Currently it support Windows Terminal only
 
 The architecture is intentionally minimal and straightforward, designed to make it easy to add custom addon features. If you'd like to contribute or add new features, please feel free to extend this tool and help make it a valuable utility for the Windows developer community!
 
