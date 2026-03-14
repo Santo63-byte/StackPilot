@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>StackPilot</title>
+	<link rel="stylesheet" href="/styles/boxbutton.css">
+	<link rel="stylesheet" href="/styles/table.css">
+    <link rel="stylesheet" href="/styles/addserver.css">
+    <link rel="stylesheet" href="/styles/parentview.css">
+</head>
+<body>
+	<div class="main-layout">
+		<div class="header-section">
+			<h1>Stack Pilot</h1>
+			<div style="display: flex; gap: 10px; align-items: center;">
+				<select id="proxy-env-dropdown" style="display: none; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+				</select>
+				<box-button></box-button>
+			</div>
+		</div>
+		<div class="center-content">
+			<server-table></server-table>
+		</div>
+	</div>
+	<div id="modal-overlay" class="modal-overlay" style="display: none;">
+		<add-server-modal></add-server-modal>
+	</div>
+	<script src="/static/config.js"></script>
+	<script type="module">
+        import '/static/app.js';
+	</script>
+</body>
+</html>
