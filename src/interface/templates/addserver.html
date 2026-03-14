@@ -1,0 +1,26 @@
+<div class="modal">
+<form class="form" id="addServerForm">
+  <div class="credit-card-info--form">
+    <div class="input_container">
+      <label for="server_name_field" class="input_label">Server Name</label>
+      <input id="server_name_field" class="input_field" type="text" name="server_name" title="Input title" placeholder="Server name (eg: Bookingservice)" required>
+    </div>
+    <div class="input_container">
+      <label for="server_path_field" class="input_label">Path to the server</label>
+      <div class="input_with_browse">
+        <input id="server_path_field" class="input_field" type="text" name="root_path" title="Input title" placeholder="/path/to/server" required>
+        <button type="button" class="browse-btn" id="browse-btn" title="Browse folders">📁</button>
+      </div>
+    </div>
+    <div class="input_container">
+      <label for="server_port_field" class="input_label">Port Number</label>
+      <input id="server_port_field" class="input_field" type="number" name="port_no" title="Input title" placeholder="8080">
+    </div>
+    <div class="input_container">
+      <label for="server_command_field" class="input_label">Command to start</label>
+      <input id="server_command_field" class="input_field" type="text" name="runnable_command" title="Input title" placeholder="eg: npm start" required>
+    </div>
+  </div>
+    <button type="submit" class="purchase--btn">Add to Server list</button>
+</form>
+</div>
