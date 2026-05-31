@@ -1,4 +1,7 @@
 // Helper function to get initials from server name
+
+
+
 function getInitials(name) {
 	return name
 		.split(/\s|-/)
