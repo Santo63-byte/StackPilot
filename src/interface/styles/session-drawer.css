@@ -1,0 +1,369 @@
+/* ── Hamburger toggle button ─────────────────────────── */
+.session-drawer-toggle {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 1100;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    width: 36px;
+    height: 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+    transition: background 0.15s, box-shadow 0.15s;
+    padding: 0;
+}
+
+.session-drawer-toggle:hover {
+    background: #f0f4ff;
+    box-shadow: 2px 0 12px rgba(99, 102, 241, 0.18);
+}
+
+.session-drawer-toggle .bar {
+    width: 18px;
+    height: 2px;
+    background: #4b5563;
+    border-radius: 2px;
+    transition: background 0.15s;
+}
+
+.session-drawer-toggle:hover .bar {
+    background: #6366f1;
+}
+
+/* ── Overlay backdrop ─────────────────────────────────── */
+.session-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1150;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.session-drawer-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ── Drawer panel ─────────────────────────────────────── */
+.session-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 300px;
+    background: #ffffff;
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.session-drawer.open {
+    transform: translateX(0);
+}
+
+/* ── Drawer header ────────────────────────────────────── */
+.session-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 16px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    flex-shrink: 0;
+    background: #f9fafb;
+}
+
+.session-drawer-header h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a202c;
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+.session-drawer-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.session-add-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    background: #6366f1;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, transform 0.1s;
+    flex-shrink: 0;
+}
+
+.session-add-btn:hover {
+    background: #4f46e5;
+    transform: scale(1.07);
+}
+
+.session-drawer-close-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid #e5e7eb;
+    color: #6b7280;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+}
+
+.session-drawer-close-btn:hover {
+    background: #fee2e2;
+    color: #ef4444;
+    border-color: #fca5a5;
+}
+
+/* ── Add-session inline form ──────────────────────────── */
+.session-add-form {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    display: none;
+    gap: 8px;
+    align-items: center;
+    background: #f0f4ff;
+    flex-shrink: 0;
+}
+
+.session-add-form.visible {
+    display: flex;
+}
+
+.session-add-form input {
+    flex: 1;
+    padding: 7px 10px;
+    border: 1px solid #c7d2fe;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+    background: #fff;
+    color: #1a202c;
+    transition: border-color 0.15s;
+}
+
+.session-add-form input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.session-add-form button {
+    padding: 7px 13px;
+    border-radius: 6px;
+    border: none;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.session-add-form .btn-confirm {
+    background: #6366f1;
+    color: #fff;
+}
+
+.session-add-form .btn-confirm:hover {
+    background: #4f46e5;
+}
+
+.session-add-form .btn-cancel {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.session-add-form .btn-cancel:hover {
+    background: #d1d5db;
+}
+
+/* ── Sessions list ────────────────────────────────────── */
+.session-drawer-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.session-drawer-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.session-drawer-list::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 4px;
+}
+
+.session-drawer-empty {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 13px;
+    padding: 32px 16px;
+}
+
+/* ── Single session item ──────────────────────────────── */
+.session-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 9px;
+    border: 1px solid #e5e7eb;
+    background: #fafafa;
+    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.session-item:hover {
+    background: #f0f4ff;
+    border-color: #c7d2fe;
+    box-shadow: 0 1px 4px rgba(99, 102, 241, 0.1);
+    cursor: pointer;
+}
+
+.session-item--active {
+    background: #eef2ff;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.session-item--active .session-item-avatar {
+    background: #6366f1;
+}
+
+.session-item-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    text-transform: uppercase;
+}
+
+.session-item-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a202c;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Edit inline input on a session item */
+.session-item-edit-input {
+    flex: 1;
+    padding: 4px 8px;
+    border: 1px solid #6366f1;
+    border-radius: 5px;
+    font-size: 13px;
+    outline: none;
+    background: #fff;
+    color: #1a202c;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.session-item-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.session-item-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    transition: background 0.15s;
+}
+
+.session-item-btn.edit-btn {
+    color: #6366f1;
+}
+
+.session-item-btn.edit-btn:hover {
+    background: #e0e7ff;
+}
+
+.session-item-btn.delete-btn {
+    color: #ef4444;
+}
+
+.session-item-btn.delete-btn:hover {
+    background: #fee2e2;
+}
+
+.session-item-btn.save-btn {
+    color: #10b981;
+}
+
+.session-item-btn.save-btn:hover {
+    background: #d1fae5;
+}
+
+.session-item-btn.cancel-btn {
+    color: #6b7280;
+}
+
+.session-item-btn.cancel-btn:hover {
+    background: #f3f4f6;
+}
+
+/* ── Loading spinner ──────────────────────────────────── */
+.session-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.session-spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid #e5e7eb;
+    border-top-color: #6366f1;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

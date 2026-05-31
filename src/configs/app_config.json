@@ -1,7 +1,7 @@
 {
     "app_info": {
         "app_name": "StackPilot",
-        "version": "1.0.0",
+        "version": "0.0.1",
         "port": 8017
     },
     "app_settings": {
@@ -9,35 +9,31 @@
         "enable_notifications": true,
         "error_reporting": true,
         "storage": "D_Drive_Temp",
-        "terminal": "Windows_Terminal",
+        "terminal": "StackPilot_Terminal",
         "same_window": true,
         "core_addons": {
             "git_integration": {
                 "enabled": true
             },
-            "server_detection": {
-                "enabled": false,
-                "strategy": "titlecheck"
+            "console_display": {
+                "enabled": true
             },
-            "environment_inspection": {
-                "enabled": false,
-                "editable": true
+            "port_killer": {
+                "enabled": true
+            },
+            "path_terminal_opener": {
+                "enabled": true
+            },
+            "multiple_sessions": {
+                "enabled": true
+            },
+            "config_uploader": {
+                "enabled": false
             }
         },
         "custom_addons": {
             "proxy_settings": {
-                "enabled": true,
-                "proxy_file_path": "D:\\my_proxypath\\proxy_config_file",
-                "available_envs": [
-                    "dev",
-                    "qa",
-                    "local"
-                ]
-            }
-        }
-    },
-    "user_settings": {
-        "default_session_name": "StackPilot",
-        "multiple_sessions": false
+                "enabled": false
+        },
     }
 }

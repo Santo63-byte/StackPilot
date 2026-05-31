@@ -2,14 +2,16 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 import json
 import os
+import getpass
 
 
 class FileManager:
     def __init__(self, context:object=None, config:object=None):
-            self._config = config
-            self._context = context
-            
-    FOLDERS = ["logs", "data", "sessions", "backups"]
+        self._config = config
+        self._context = context
+        
+    logged_user:str = getpass.getuser() or "anonymous_user"     
+    FOLDERS = ["logs", "data", "profile"]
     
     def _create_parent_folders(self, base_path: str) -> None:
         """Create parent folders required by the application."""
@@ -24,13 +26,14 @@ class FileManager:
     def setup_files(self) -> None:
         """Setup necessary files and directories."""
         #creating parent folders
-        storage_path = f'{self._config.server_settings.get("storage")}/{self._config.app_info.get("app_name","StackPilot")}'
+        storage_path = f'{self._config.server_settings.get("storage")}/{self._config.app_info.get("app_name","StackPilot")}/{self.logged_user}'
         if storage_path and not os.path.exists(storage_path):
             os.makedirs(storage_path, exist_ok=True)
             logging.info(f"Created datasource path: '{storage_path}'")
         self._create_parent_folders(storage_path)
         self.create_log_file(storage_path)
-        self._create_data_files() # store data files like serverlist etc
+        self._create_data_files(storage_path) 
+        self._create_profile_files(storage_path)
         
     def create_log_file(self, path) -> None:
         """Configure application logging with daily rotation."""
@@ -51,10 +54,7 @@ class FileManager:
             for handler in logger.handlers[:]:
                 logger.removeHandler(handler)
             
-            # Create TimedRotatingFileHandler for daily rotation
-            # when="midnight" creates new log file at midnight
-            # interval=1 means every 1 day
-            # backupCount keeps last 30 days of logs
+            # TimedRotatingFileHandler for daily rotation logging
             handler = TimedRotatingFileHandler(
                 filename=log_file_path,
                 when="midnight",
@@ -62,35 +62,36 @@ class FileManager:
                 backupCount=30,
                 encoding='utf-8'
             )
-            
-            # Set format
             formatter = logging.Formatter(
                 '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
             )
             handler.setFormatter(formatter)
             logger.addHandler(handler)
-            logging.info(f"Logging configured. Log files will be created in: '{logs_path}'")
+            logging.info(f"Log files will be created in: '{logs_path}'")
             logging.info("Daily rotation enabled. Backup count: 30 days")
             
         except Exception as e:
             logging.error(f"Error configuring logging: {e}")
         
-    def _get_defaults_server_data(self):
-        """Get default content for server data file."""
-        default_content = {
-            "server_id": "1",
-            "port_no": self._config.app_info.get("port", 8000),
-            "root_path": self._config.server_settings.get("storage", "C_Drive_Temp)"),
-            "runnable_command": "python stackpilotapp.py",
-            "git_branch": "unknown",
-            "server_name": self._config.app_info.get("app_name", "StackPilot"),
-            "pid_status":1
-        }
-        return default_content
-    
-    def create_process_registry_file(self) -> None:
+    def _create_profile_files(self,storage_path) -> None:
+        """Create profile data file if it doesn't exist."""
+        profile_path = os.path.join(storage_path, "profile")
+        profile_file_path = os.path.join(profile_path, "settings.json")
+        self._context["datasources"]["profile_settings"] = profile_file_path 
+        if not os.path.exists(profile_file_path):
+            try:
+                with open(profile_file_path, 'w') as f:
+                    json.dump({}, f, indent=4)
+                logging.info(f"Created profile data file: '{profile_file_path}'")
+            except Exception as e:
+                logging.error(f"Error creating profile data file: {e}")
+                
+        else:
+            logging.info(f"Profile data file already exists: '{profile_file_path}'")
+            
+    def create_process_registry_file(self,storage_path) -> None:
         """Create process registry file if it doesn't exist."""
-        storage_path = f'{self._config.server_settings.get("storage")}/{self._config.app_info.get("app_name","StackPilot")}'
+        storage_path = os.path.join(storage_path, "data")
         registry_file_path = os.path.join(storage_path, "process_registry.json")
         self._context["datasources"]["process_registry"] = registry_file_path 
         if not os.path.exists(registry_file_path):
@@ -103,20 +104,34 @@ class FileManager:
                 
         else:
             logging.info(f"Process registry file already exists: '{registry_file_path}'")
+    
+    def create_user_sessions_file(self,storage_path) -> None:
+        """Create user sessions file if it doesn't exist."""
+        storage_path = os.path.join(storage_path, "data")
+        sessions_file_path = os.path.join(storage_path, 'sessions.json')
+        self._context["datasources"]["user_sessions"] = sessions_file_path 
+        if not os.path.exists(sessions_file_path):
+            try:
+                with open(sessions_file_path, 'w') as f:
+                    json.dump({}, f, indent=4)
+                logging.info(f"Created user sessions file: '{sessions_file_path}'")
+            except Exception as e:
+                logging.error(f"Error creating user sessions file: {e}")
+                
+        else:
+            logging.info(f"User sessions file already exists: '{sessions_file_path}'")
             
-    def create_server_data_file(self) -> None:
+    def create_server_data_file(self,root_path):
         """Create server data file with default content if it doesn't exist."""
         SERVER_LIST: str = "serverslist.json"
-        root_path = f"{self._config.server_settings.get('storage')}/{self._config.app_info.get('app_name','StackPilot')}/data"
+        root_path = os.path.join(root_path, "data")
         file_path = os.path.join(root_path, SERVER_LIST)
         self._context["datasources"]["server_list"] = file_path  # Update config with actual path used
-        # Get default server data
-        default_server = self._get_defaults_server_data()
         
-        # Create the JSON structure with server_lists as array
+        # # Create the JSON structure with server_lists as array
         file_structure = {
             "default_user": {
-                "server_lists": [default_server]
+                "server_lists": []
             }
         }
         
@@ -132,17 +147,6 @@ class FileManager:
                     existing_data["default_user"] = {}
                 if "server_lists" not in existing_data["default_user"]:
                     existing_data["default_user"]["server_lists"] = []
-                
-                # Find and replace server with server_id = "1", or add if not found
-                server_lists = existing_data["default_user"]["server_lists"]
-                found = False
-                for i, server in enumerate(server_lists):
-                    if server.get("server_id") == "1":
-                        server_lists[i] = default_server
-                        found = True
-                        break
-                if not found:
-                    server_lists.append(default_server)
                 with open(file_path, 'w') as f:
                     json.dump(existing_data, f, indent=4)
                 logging.info(f"Updated server data file: '{file_path}'")
@@ -157,7 +161,8 @@ class FileManager:
             except Exception as e:
                 logging.error(f"Error creating server data file: {e}")
         
-    def _create_data_files(self) -> None:
+    def _create_data_files(self,storage_path) -> None:
         """Create a data file with default content if it doesn't exist."""
-        self.create_server_data_file()
-        self.create_process_registry_file()
+        self.create_user_sessions_file(storage_path)
+        self.create_server_data_file(storage_path)
+        self.create_process_registry_file(storage_path)
