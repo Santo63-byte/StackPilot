@@ -48,6 +48,59 @@ async function includeComponent(tag, url) {
 					}
 				}
 			});
+
+			// Proxy start button
+			const proxyBtnWrapper = document.getElementById('proxy-start-btn-wrapper');
+			const proxyBtn = document.getElementById('proxy-start-btn');
+			const proxyDot = proxyBtn.querySelector('.proxy-dot');
+			const proxyErrorIcon = document.getElementById('proxy-error-icon');
+
+			proxyBtnWrapper.style.display = 'flex';
+
+			function setProxyDotState(state, errorMsg) {
+				proxyDot.className = 'proxy-dot';
+				if (state === 'loading') {
+					proxyDot.classList.add('proxy-dot--yellow');
+					proxyBtn.disabled = true;
+					proxyErrorIcon.style.display = 'none';
+				} else if (state === 'success') {
+					proxyDot.classList.add('proxy-dot--green');
+					proxyBtn.disabled = false;
+					proxyErrorIcon.style.display = 'none';
+				} else {
+					proxyDot.classList.add('proxy-dot--red');
+					proxyBtn.disabled = false;
+					if (errorMsg) {
+						proxyErrorIcon.textContent = '⚠️';
+						proxyErrorIcon.setAttribute('data-msg', errorMsg);
+						proxyErrorIcon.style.display = 'inline-block';
+					} else {
+						proxyErrorIcon.style.display = 'none';
+					}
+				}
+			}
+
+			proxyBtn.addEventListener('click', async () => {
+				setProxyDotState('loading');
+				try {
+					const response = await fetch('/sp/proxy/server/start', { method: 'POST' });
+					const data = await response.json();
+					if (data.status === 200) {
+						setProxyDotState('success');
+					} else {
+						setProxyDotState('error', data.message || 'Failed to start proxy');
+					}
+				} catch (error) {
+					setProxyDotState('error', 'Network error: could not reach proxy start endpoint');
+				}
+			});
+
+			// Set initial dot state based on is_proxy_running from render attributes
+			if (proxySettings.is_proxy_running === true) {
+				setProxyDotState('success');
+			} else {
+				setProxyDotState('error');
+			}
 		}
 		
 		await includeComponent('box-button', '/templates/boxbutton.html');
@@ -74,6 +127,21 @@ async function includeComponent(tag, url) {
 			}
 		};
 		document.body.appendChild(addServerScript);
+
+		// Load session drawer script
+		const sessionDrawerScript = document.createElement('script');
+		sessionDrawerScript.src = '/static/session-drawer.js';
+		document.body.appendChild(sessionDrawerScript);
+
+		// Load console drawer script
+		const consoleDrawerScript = document.createElement('script');
+		consoleDrawerScript.src = '/static/console-drawer.js';
+		document.body.appendChild(consoleDrawerScript);
+
+		// Load settings modal script
+		const settingsScript = document.createElement('script');
+		settingsScript.src = '/static/settings.js';
+		document.body.appendChild(settingsScript);
 
 		// Box button click handler to open modal
 		const boxButton = document.querySelector('.box-button');
