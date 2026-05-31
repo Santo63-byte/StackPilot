@@ -30,6 +30,10 @@
             "config_uploader": {
                 "enabled": false
             }
-        }
+        },
+        "custom_addons": {
+            "proxy_settings": {
+                "enabled": false
+        },
     }
 }
