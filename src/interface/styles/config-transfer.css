@@ -1,0 +1,187 @@
+/* ── Config download / upload header buttons ───────────── */
+.config-header-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: radial-gradient(circle at 35% 35%, #ffffff, #c8cdd6);
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.3), -2px -2px 5px rgba(255,255,255,0.8), inset 1px 1px 2px rgba(255,255,255,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #4b5563;
+    transition: box-shadow 0.15s ease;
+    padding: 0;
+    outline: none;
+}
+
+.config-header-btn:hover {
+    box-shadow: 4px 4px 8px rgba(0,0,0,0.35), -2px -2px 6px rgba(255,255,255,0.9), inset 1px 1px 2px rgba(255,255,255,0.6);
+    color: #6366f1;
+}
+
+.config-header-btn:active {
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.3), inset 2px 2px 4px rgba(0,0,0,0.15);
+}
+
+/* ── Upload config modal overlay ────────────────────────── */
+.upload-config-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-config-modal {
+    background: #ffffff;
+    border-radius: 12px;
+    width: 440px;
+    max-width: 95vw;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Header */
+.upload-config-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.upload-config-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a202c;
+    letter-spacing: 0.2px;
+}
+
+.upload-config-close {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid #e5e7eb;
+    color: #6b7280;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+}
+
+.upload-config-close:hover {
+    background: #fee2e2;
+    color: #ef4444;
+    border-color: #fca5a5;
+}
+
+/* Drop zone */
+.upload-drop-zone {
+    margin: 20px;
+    border: 2px dashed #c7d2fe;
+    border-radius: 10px;
+    background: #f5f3ff;
+    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: pointer;
+}
+
+.upload-drop-zone.drag-over {
+    border-color: #6366f1;
+    background: #eef2ff;
+}
+
+.upload-drop-hint {
+    font-size: 14px;
+    color: #374151;
+    margin: 0;
+    text-align: center;
+}
+
+.upload-drop-sub {
+    font-size: 12px;
+    color: #9ca3af;
+    margin: 0;
+}
+
+.upload-browse-label {
+    font-size: 13px;
+    color: #6366f1;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.upload-browse-label:hover {
+    color: #4f46e5;
+}
+
+.upload-selected-name {
+    font-size: 12px;
+    color: #16a34a;
+    margin: 4px 0 0;
+    font-weight: 500;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Footer */
+.upload-config-footer {
+    padding: 0 20px 16px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.upload-config-confirm-btn {
+    padding: 8px 20px;
+    background: #6366f1;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, opacity 0.15s;
+}
+
+.upload-config-confirm-btn:hover:not(:disabled) {
+    background: #4f46e5;
+}
+
+.upload-config-confirm-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* Status message */
+.upload-config-status {
+    font-size: 12px;
+    text-align: center;
+    padding: 0 20px 14px;
+    margin: 0;
+    min-height: 18px;
+    color: #6b7280;
+}
+
+.upload-config-status.success {
+    color: #16a34a;
+}
+
+.upload-config-status.error {
+    color: #dc2626;
+}
