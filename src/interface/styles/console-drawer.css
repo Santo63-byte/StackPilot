@@ -1,0 +1,389 @@
+/* ── Console drawer toggle (right edge) ─────────────────────────── */
+.console-drawer-toggle {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 1100;
+    background: #1a202c;
+    border: 1px solid #374151;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    width: 36px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.25);
+    transition: background 0.15s;
+    padding: 0;
+    color: #9ca3af;
+}
+
+.console-drawer-toggle:hover {
+    background: #374151;
+    color: #e5e7eb;
+}
+
+/* ── Backdrop ──────────────────────────────────────────────────── */
+.console-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 1150;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.console-drawer-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ── Drawer panel ─────────────────────────────────────────────── */
+.console-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 80vw;
+    min-width: 520px;
+    background: #0f1117;
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -4px 0 28px rgba(0, 0, 0, 0.5);
+    transform: translateX(100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.console-drawer.open {
+    transform: translateX(0);
+}
+
+/* ── Drawer header ────────────────────────────────────────────── */
+.console-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #1e293b;
+    background: #161b22;
+    flex-shrink: 0;
+}
+
+.console-drawer-header-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #e2e8f0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.console-drawer-header-title svg {
+    color: #10b981;
+}
+
+.console-drawer-close-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid #374151;
+    color: #6b7280;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.console-drawer-close-btn:hover {
+    background: #7f1d1d;
+    color: #fca5a5;
+    border-color: #7f1d1d;
+}
+
+/* ── Tab bar ──────────────────────────────────────────────────── */
+.console-tab-bar {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #374151 transparent;
+    background: #161b22;
+    border-bottom: 1px solid #1e293b;
+    flex-shrink: 0;
+    gap: 2px;
+    padding: 0 8px;
+    min-height: 42px;
+    align-items: flex-end;
+}
+
+.console-tab-bar::-webkit-scrollbar {
+    height: 3px;
+}
+
+.console-tab-bar::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 3px;
+}
+
+.console-tab-bar-empty {
+    color: #4b5563;
+    font-size: 12px;
+    padding: 0 8px;
+    line-height: 42px;
+    font-style: italic;
+    user-select: none;
+}
+
+/* ── Single tab ───────────────────────────────────────────────── */
+.console-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px 8px 10px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s, background 0.15s;
+    position: relative;
+    bottom: -1px;
+}
+
+.console-tab:hover {
+    color: #e2e8f0;
+    background: #1e293b;
+}
+
+.console-tab.active {
+    background: #0f1117;
+    border-color: #1e293b;
+    border-bottom-color: #0f1117;
+    color: #10b981;
+}
+
+/* Status dot */
+.console-tab-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #374151;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+/* Tab close x */
+.console-tab-close {
+    margin-left: 4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #4b5563;
+    line-height: 1;
+    transition: background 0.12s, color 0.12s;
+}
+
+.console-tab-close:hover {
+    background: #374151;
+    color: #f87171;
+}
+
+/* ── Log output area ──────────────────────────────────────────── */
+.console-output-area {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.console-log-panel {
+    display: none;
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    padding: 12px 16px 16px;
+    font-family: 'Cascadia Code', 'Consolas', 'Fira Mono', 'Monaco', 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.65;
+    background: #0f1117;
+    scrollbar-width: thin;
+    scrollbar-color: #374151 transparent;
+}
+
+.console-log-panel.active {
+    display: block;
+}
+
+.console-log-panel::-webkit-scrollbar {
+    width: 5px;
+}
+
+.console-log-panel::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 4px;
+}
+
+.log-line {
+    color: #d1d5db;
+    word-break: break-all;
+    white-space: pre-wrap;
+}
+
+.log-line.log-info {
+    color: #6366f1;
+    font-style: italic;
+}
+
+.log-line.log-error {
+    color: #f87171;
+}
+
+/* ── Empty-state hint ─────────────────────────────────────────── */
+.console-empty-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #374151;
+    gap: 12px;
+}
+
+.console-empty-hint svg {
+    width: 48px;
+    height: 48px;
+    opacity: 0.35;
+}
+
+.console-empty-hint p {
+    font-size: 13px;
+    color: #4b5563;
+    margin: 0;
+}
+
+/* ── Kill-Port widget ─────────────────────────────────────────── */
+.kill-port-widget {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 8px;
+}
+
+.kill-port-input {
+    width: 80px;
+    padding: 4px 8px;
+    background: #0f1117;
+    border: 1px solid #374151;
+    border-radius: 5px;
+    color: #e2e8f0;
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.15s;
+    text-align: center;
+}
+
+.kill-port-input::placeholder {
+    color: #4b5563;
+}
+
+.kill-port-input:focus {
+    border-color: #ef4444;
+}
+
+.kill-port-btn {
+    padding: 4px 10px;
+    background: #991b1b;
+    border: 1px solid #7f1d1d;
+    border-radius: 5px;
+    color: #fca5a5;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.kill-port-btn:hover {
+    background: #b91c1c;
+    border-color: #991b1b;
+}
+
+.kill-port-btn:active {
+    background: #7f1d1d;
+}
+
+.open-terminal-btn {
+    padding: 4px 10px;
+    background: #1d4ed8;
+    border: 1px solid #1e40af;
+    border-radius: 5px;
+    color: #bfdbfe;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.open-terminal-btn:hover {
+    background: #2563eb;
+    border-color: #1d4ed8;
+}
+
+.open-terminal-btn:active {
+    background: #1e40af;
+}
+
+/* ── Toast notification ───────────────────────────────────────── */
+.console-toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    padding: 10px 18px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #f1f5f9;
+    background: #1e293b;
+    border: 1px solid #334155;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    max-width: 340px;
+}
+
+.console-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.console-toast.toast-success {
+    border-color: #10b981;
+    color: #6ee7b7;
+}
+
+.console-toast.toast-error {
+    border-color: #ef4444;
+    color: #fca5a5;
+}
