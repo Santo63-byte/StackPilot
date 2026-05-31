@@ -6,6 +6,7 @@ import json
 import os
 
 class ConfigManager:
+    
     def __init__(self,config:object=None):
         self.configs = config
         self.config_file_path = os.path.join(
@@ -20,7 +21,7 @@ class ConfigManager:
         config[key] = value
         
         
-    def process_server_settings(self, settings: Dict[str, Any]) -> None:
+    def process_server_settings(self, settings: Dict[str, Any]):
         """Process server settings if needed."""
         # Handle case where settings is None or not a dictionary
         if not settings or not isinstance(settings, dict):
@@ -38,7 +39,7 @@ class ConfigManager:
             settings["storage"] = self.C
     
     
-    def load_configs(self) -> Dict[str, Any]:
+    def load_configs(self):
         """Load configurations from app_config.json and populate the Config singleton."""
         try:
             with open(self.config_file_path, 'r') as file:
@@ -54,9 +55,8 @@ class ConfigManager:
             
             if "user_settings" in config_data:
                 self.configs.user_preferences = config_data["user_settings"]
-            
+    
             return config_data
-        
         except FileNotFoundError:
             logging.error(f"Config file not found at {self.config_file_path}")
             return {}
@@ -64,12 +64,14 @@ class ConfigManager:
             logging.error(f"Error decoding JSON from {self.config_file_path}")
             return {}
     
-    def get_config(self, key: str) -> Optional[Any]:
+    def get_config(self, key: str):
+        
         """Get a specific configuration value by key."""
         configs = self.load_configs()
         return configs.get(key, None)
     
-    def initialize(self) -> None:
+    def initialize(self) :
+        
         """Initialize configuration manager by loading all configurations."""
         config_data= self.load_configs()
         if config_data:
